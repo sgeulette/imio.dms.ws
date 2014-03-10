@@ -1,0 +1,7 @@
+<?xml version="1.0"?>
+<layers>
+  <layer
+    name="imio.dms.ws"
+    interface="imio.dms.ws.interfaces.IImioDmsWsLayer"
+  />
+</layers>
