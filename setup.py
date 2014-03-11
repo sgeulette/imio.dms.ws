@@ -45,16 +45,21 @@ setup(
         'five.grok',
         'plone.api',
         'setuptools',
+        'z3c.json',
+        'Products.CPUtils',
     ],
     extras_require={
         'test': [
             'ecreall.helpers.testing',
             'plone.app.testing',
             'plone.app.robotframework',
+            'ipdb',
         ],
     },
     entry_points="""
     [z3c.autoinclude.plugin]
     target = plone
+    [console_scripts]
+    ws_test = imio.dms.ws.client:ws_test
     """,
 )
