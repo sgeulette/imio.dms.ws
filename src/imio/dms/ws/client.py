@@ -4,8 +4,8 @@ import os
 import sys
 from z3c.json.converter import JSONWriter
 from Products.CPUtils.utils import runCommand, error, verbose
-from imio.dms.ws.utils import convertBinary
-import imio.dms.ws as idw
+#from Products.CPUtils.utils import writeTo
+from imio.dms.ws.utils import encodeFile, DATA_DIR
 
 
 def ws_test(http_server, port, site):
@@ -30,11 +30,13 @@ def ws_test(http_server, port, site):
                 'scan_hour': '10:12:53',
                 'user': 'jeanjean',
                 'pc': 'pc321',
-                'data': convertBinary(os.path.join(idw.__path__[0], 'data', 'courrier1.pdf')),
+                'filesize': 1,
+                'data': encodeFile(os.path.join(DATA_DIR, 'courrier1.pdf')),
             },
         }
     }
     route = args[0]
+    #writeTo(os.path.join(DATA_DIR, 'sent.txt'), json_params[route]['post']['data'])
     url = "http://%s:%s/%s/@@API/%s" % (http_server, port, site, route)
     user = pwd = 'admin'
     cmd = "wget -q -O - --user=%s --password=%s" % (user, pwd)
@@ -42,6 +44,7 @@ def ws_test(http_server, port, site):
         if 'post' in json_params[route]:
             #data = urllib.urlencode(json_params[route]['post'])
             data = "json=%s" % JSONWriter().write(json_params[route]['post']).encode('utf8')
+            #writeTo(os.path.join(DATA_DIR, 'sent.txt'), data)
             cmd += " --post-data='%s'" % data
     cmd += ' %s' % url
     (out, err) = runCommand(cmd)
