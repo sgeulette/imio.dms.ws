@@ -36,12 +36,18 @@ def send_dmsfile(context, request):
     try:
         validate(input_params, input_schema)
     except ValidationError, ve_obj:
-        return helpers.error("Validation error: %s" % ve_obj.message, barcode=input_params['barcode'])
+        del input_params['data']
+        return helpers.error("Validation error: %s" % ve_obj.message, barcode=input_params['barcode'],
+                             input=input_params)
+
+    # needed to be encoded for base64 translation
     input_params['data'] = input_params['data'].encode('utf8')
 #    writeTo(os.path.join(DATA_DIR, 'received.txt'), input_params['data'])
     size = decodeToFile(input_params['data'], os.path.join(DATA_DIR, 'courrier1_recup.pdf'))
-    input_params['data'] = "b64 data length %d" % len(input_params['data'])
+    input_params['data'] = "data length %d" % size
+
     if input_params['filesize'] != size:
         return helpers.error("The decoded file content has not the original size: %d <> %d"
-                             % (size, input_params['filesize']), data=input_params, barcode=input_params['barcode'])
+                             % (size, input_params['filesize']), input=input_params, barcode=input_params['barcode'])
+
     return helpers.success("Well done", input=input_params, barcode=input_params['barcode'])
