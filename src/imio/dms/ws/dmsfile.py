@@ -8,7 +8,9 @@ from AccessControl import getSecurityManager
 from AccessControl import Unauthorized
 #from Products.CPUtils.utils import writeTo
 #from Products.CPUtils.utils import error
+from jsonschema import validate, ValidationError
 from imio.dms.ws.utils import decodeToFile, DATA_DIR
+from imio.dms.ws.schema import input_schema
 
 
 @router.add_route("/test", "test", methods=["GET"])
@@ -27,7 +29,14 @@ def send_dmsfile(context, request):
 #        raise Unauthorized("You cannot access this webservice")
 
     jsonReader = getUtility(interfaces.IJSONReader)
-    input_params = jsonReader.read(request.get('json', ''))
+    json_data = request.get('json', '')
+    if not json_data:
+        helpers.error("Missing json parameter in the post data of the request")
+    input_params = jsonReader.read(json_data)
+    try:
+        validate(input_params, input_schema)
+    except ValidationError, ve_obj:
+        return helpers.error("Validation error: %s" % ve_obj.message, barcode=input_params['barcode'])
     input_params['data'] = input_params['data'].encode('utf8')
 #    writeTo(os.path.join(DATA_DIR, 'received.txt'), input_params['data'])
     size = decodeToFile(input_params['data'], os.path.join(DATA_DIR, 'courrier1_recup.pdf'))
