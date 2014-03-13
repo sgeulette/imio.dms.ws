@@ -3,10 +3,11 @@
 import os
 from zope.component import getUtility
 from z3c.json import interfaces
-from plone.jsonapi.core.browser import router
+from plone.jsonapi.core.browser import router, helpers
 from AccessControl import getSecurityManager
 from AccessControl import Unauthorized
 #from Products.CPUtils.utils import writeTo
+#from Products.CPUtils.utils import error
 from imio.dms.ws.utils import decodeToFile, DATA_DIR
 
 
@@ -29,8 +30,9 @@ def send_dmsfile(context, request):
     input_params = jsonReader.read(request.get('json', ''))
     input_params['data'] = input_params['data'].encode('utf8')
 #    writeTo(os.path.join(DATA_DIR, 'received.txt'), input_params['data'])
-    decodeToFile(input_params['data'], os.path.join(DATA_DIR, 'courrier1_recup.pdf'))
+    size = decodeToFile(input_params['data'], os.path.join(DATA_DIR, 'courrier1_recup.pdf'))
     input_params['data'] = "b64 data length %d" % len(input_params['data'])
-    return {
-        'input': input_params
-    }
+    if input_params['filesize'] != size:
+        return helpers.error("The decoded file content has not the original size: %d <> %d"
+                             % (size, input_params['filesize']), data=input_params, barcode=input_params['barcode'])
+    return helpers.success("Well done", input=input_params, barcode=input_params['barcode'])

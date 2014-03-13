@@ -33,6 +33,8 @@ def decodeToFile(b64str, filepath):
     try:
         ofile = open(filepath, 'wb')
         ofile.write(base64.urlsafe_b64decode(b64str))
+        size = ofile.tell()
         ofile.close()
+        return size
     except IOError:
         return "Cannot create %s file" % filepath

@@ -30,7 +30,7 @@ def ws_test(http_server, port, site):
                 'scan_hour': '10:12:53',
                 'user': 'jeanjean',
                 'pc': 'pc321',
-                'filesize': 1,
+                'filesize': 61278,
                 'data': encodeFile(os.path.join(DATA_DIR, 'courrier1.pdf')),
             },
         }
