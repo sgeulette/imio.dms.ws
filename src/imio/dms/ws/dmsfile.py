@@ -2,7 +2,7 @@
 
 import os
 from zope.component import getUtility
-from z3c.json import interfaces
+from z3c.json.interfaces import IJSONReader
 from plone.jsonapi.core.browser import router, helpers
 from AccessControl import getSecurityManager
 from AccessControl import Unauthorized
@@ -28,7 +28,7 @@ def send_dmsfile(context, request):
 #    if not getSecurityManager().checkPermission("Manage portal", context):
 #        raise Unauthorized("You cannot access this webservice")
 
-    jsonReader = getUtility(interfaces.IJSONReader)
+    jsonReader = getUtility(IJSONReader)
     json_data = request.get('json', '')
     if not json_data:
         return helpers.error("Missing json parameter in the post data of the request")

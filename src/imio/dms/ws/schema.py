@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 
+from zope.component import getUtility
+from z3c.json.interfaces import IJSONWriter
 from plone.jsonapi.core.browser import router, helpers
 
 all_schemas = {
@@ -82,4 +84,5 @@ def get_schema(context, request, schema=''):
     if not schema:
         return helpers.error('You must give a schema name as parameter: /get_schema/the-schema-name.'
                              'The following schema names are available: %s' % all_schemas.keys())
-#    jsonReader = getUtility(interfaces.IJSONReader)
+    jsonWriter = getUtility(IJSONWriter)
+    return helpers.success("Got schema %s" % schema, schema=jsonWriter.write(all_schemas['send_dmsfile_in']))
