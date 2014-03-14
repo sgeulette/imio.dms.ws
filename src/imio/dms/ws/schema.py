@@ -41,6 +41,8 @@ input_schema = {
         "filesize": {
             "description": "The scan file size in bytes",
             "type": "integer",
+            "minimum": 0,
+            "exclusiveMinimum": True,
         },
         "data": {
             "description": "The file content encoded in base64. '+' and '/' characters have to be "
@@ -48,5 +50,6 @@ input_schema = {
             "type": "string",
         },
     },
+    "additionalProperties": False,
     "required": ["barcode", "type", "client_id", "scan_date", "scan_hour", "filesize", "data"]
 }
