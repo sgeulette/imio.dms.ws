@@ -22,7 +22,7 @@ def ws_test(http_server, port, site):
         'test': {},
         'send_dmsfile': {
             'post': {
-                'barcode': 'IMIO123456789',
+                'barcode': '123456789',
                 'type': 'FACT',
                 'pages_number': 1,
                 'client_id': '111',
@@ -31,6 +31,7 @@ def ws_test(http_server, port, site):
                 'user': 'jeanjean',
                 'pc': 'pc321',
                 'filesize': 61278,
+                'filename': '123456789.pdf',
                 'data': encodeFile(os.path.join(DATA_DIR, 'courrier1.pdf')),
             },
         }

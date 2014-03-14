@@ -47,7 +47,7 @@ def send_dmsfile(context, request):
     # needed to be encoded for base64 translation
     input_params['data'] = input_params['data'].encode('utf8')
 #    writeTo(os.path.join(DATA_DIR, 'received.txt'), input_params['data'])
-    size = decodeToFile(input_params['data'], os.path.join(DATA_DIR, 'courrier1_recup.pdf'))
+    size = decodeToFile(input_params['data'], os.path.join(DATA_DIR, input_params['filename']))
     input_params['data'] = "data length %d" % size
 
     if input_params['filesize'] != size:

@@ -48,6 +48,11 @@ input_schema = {
             "minimum": 0,
             "exclusiveMinimum": True,
         },
+        "filename": {
+            "description": "The scan file name",
+            "type": "string",
+            "minLength": 1,
+        },
         "data": {
             "description": "The file content encoded in base64. '+' and '/' characters have to be "
                            "literally replaced by '-' and '_' characters",
@@ -56,5 +61,5 @@ input_schema = {
         },
     },
     "additionalProperties": False,
-    "required": ["barcode", "type", "client_id", "scan_date", "scan_hour", "filesize", "data"]
+    "required": ["barcode", "type", "client_id", "scan_date", "scan_hour", "filesize", "filename", "data"]
 }
