@@ -34,6 +34,9 @@ def ws_test(http_server, port, site):
                 'filename': '123456789.pdf',
                 'data': encodeFile(os.path.join(DATA_DIR, 'courrier1.pdf')),
             },
+        },
+        'get_schema': {
+            'get': 'send_dmsfile_in'
         }
     }
     route = args[0]
@@ -47,6 +50,8 @@ def ws_test(http_server, port, site):
             data = "json=%s" % JSONWriter().write(json_params[route]['post']).encode('utf8')
             #writeTo(os.path.join(DATA_DIR, 'sent.txt'), data)
             cmd += " --post-data='%s'" % data
+        elif 'get' in json_params[route]:
+            url += '/%s' % json_params[route]['get']
     cmd += ' %s' % url
     (out, err) = runCommand(cmd)
     if err:
