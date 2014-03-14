@@ -26,7 +26,7 @@ def ws_test(http_server, port, site):
                 'type': 'FACT',
                 'pages_number': 1,
                 'client_id': '111',
-                'scan_date': '12022014',
+                'scan_date': '2014-02-12',
                 'scan_hour': '10:12:53',
                 'user': 'jeanjean',
                 'pc': 'pc321',

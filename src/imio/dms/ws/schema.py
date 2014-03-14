@@ -27,12 +27,16 @@ input_schema = {
             "minLength": 1,
         },
         "scan_date": {
-            "description": "The scan date with format DDMMYYYY",
+            "description": "The scan date with format YYYY-MM-DD",
             "type": "string",
+            "pattern": "^\d{4}-\d{2}-\d{2}$",
+#            "format": "date",
         },
         "scan_hour": {
             "description": "The scan hour with format HH:mm:SS",
             "type": "string",
+            "pattern": "^\d{2}:\d{2}:\d{2}$",
+#            "format": "hour",
         },
         "user": {
             "description": "The scanner post login name",
