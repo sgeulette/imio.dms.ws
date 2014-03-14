@@ -15,9 +15,9 @@ from imio.dms.ws.schema import all_schemas
 
 @router.add_route("/test", "test", methods=["GET"])
 def test(context, request):
-    return {
-        "url": router.url_for("test", force_external=True),
-    }
+    if not getSecurityManager().checkPermission("Manage portal", context):
+        raise Unauthorized("You cannot access this webservice")
+    return helpers.success("Webservice test method succeeded !")
 
 
 @router.add_route("/send_dmsfile", "send_dmsfile", methods=["POST"])
@@ -25,8 +25,8 @@ def send_dmsfile(context, request):
     """
         Webservice method to send a dms file and create a plone object
     """
-#    if not getSecurityManager().checkPermission("Manage portal", context):
-#        raise Unauthorized("You cannot access this webservice")
+    if not getSecurityManager().checkPermission("Manage portal", context):
+        raise Unauthorized("You cannot access this webservice")
 
     jsonReader = getUtility(IJSONReader)
     json_data = request.get('json', '')

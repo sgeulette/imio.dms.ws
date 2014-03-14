@@ -43,7 +43,7 @@ def ws_test(http_server, port, site):
     #writeTo(os.path.join(DATA_DIR, 'sent.txt'), json_params[route]['post']['data'])
     url = "http://%s:%s/%s/@@API/%s" % (http_server, port, site, route)
     user = pwd = 'admin'
-    cmd = "wget -q -O - --user=%s --password=%s" % (user, pwd)
+    cmd = "wget -q -O - --user=%s --password=%s --auth-no-challenge" % (user, pwd)
     if route in json_params:
         if 'post' in json_params[route]:
             #data = urllib.urlencode(json_params[route]['post'])
