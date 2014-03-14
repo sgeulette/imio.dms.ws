@@ -37,7 +37,11 @@ def send_dmsfile(context, request):
         validate(input_params, input_schema)
     except ValidationError, ve_obj:
         del input_params['data']
-        return helpers.error("Validation error: %s" % ve_obj.message, barcode=input_params['barcode'],
+        msg = 'Validation error'
+        if len(ve_obj.path):
+            msg += " on '%s'" % ', '.join(ve_obj.path)
+        return helpers.error("%s: %s" % (msg, ve_obj.message),
+                             barcode=input_params['barcode'],
                              input=input_params)
 
     # needed to be encoded for base64 translation
