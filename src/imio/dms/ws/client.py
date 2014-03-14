@@ -24,7 +24,7 @@ def ws_test(http_server, port, site):
             'post': {
                 'barcode': 'IMIO123456789',
                 'type': 'FACT',
-                'pages_number': 2,
+                'pages_number': 1,
                 'client_id': '111',
                 'scan_date': '12022014',
                 'scan_hour': '10:12:53',
