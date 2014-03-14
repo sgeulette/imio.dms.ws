@@ -45,6 +45,7 @@ setup(
         'five.grok',
         'plone.api',
         'setuptools',
+        'jsonschema',
         'z3c.json',
         'Products.CPUtils',
     ],
