@@ -13,11 +13,6 @@ def ws_test(http_server, port, site):
         test method to call a ws route.
         Usage: bin/ws_test the_wanted_route
     """
-    args = sys.argv[1:]
-    if len(args) < 1:
-        error("Mandatory parameter: the_route_to_test (send_dmsfile or test)")
-        return
-
     json_params = {
         'test': {},
         'send_dmsfile': {
@@ -39,6 +34,12 @@ def ws_test(http_server, port, site):
             'get': 'send_dmsfile_in'
         }
     }
+
+    args = sys.argv[1:]
+    if len(args) < 1:
+        error("Mandatory parameter: the_route_to_test (one of %s)" % ','.join(json_params.keys()))
+        return
+
     route = args[0]
     #writeTo(os.path.join(DATA_DIR, 'sent.txt'), json_params[route]['post']['data'])
     url = "http://%s:%s/%s/@@API/%s" % (http_server, port, site, route)
