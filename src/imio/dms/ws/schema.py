@@ -73,6 +73,40 @@ all_schemas = {
         "additionalProperties": False,
         "required": ["barcode", "type", "client_id", "scan_date", "scan_hour", "filesize", "filename", "data"]
     },
+    'send_dmsfile_out': {
+        "$schema": "http://json-schema.org/draft-04/schema#",
+        "title": "Json validation schema for output document",
+        "description": "This schema is used to validate json data sent when proposing "
+                       "a document to the imio webservice.",
+        "type": "object",
+        "properties": {
+            "success": {
+                "description": "Status flag",
+                "type": "boolean",
+            },
+            "message": {
+                "description": "Status message",
+                "type": "string",
+            },
+            "barcode": {
+                "description": "The unique identifier of a document",
+                "type": "string",
+            },
+            "input": {
+                "description": "Input json. Only when validation problem",
+                "type": "string",
+            },
+            "_runtime": {
+                "description": "Server process duration",
+                "type": "string",
+            },
+            "error": {
+                "description": "Error message with traceback. Only when uncatched error",
+                "type": "string",
+            },
+        },
+        "required": ["success", "message", ]
+    },
 }
 
 
