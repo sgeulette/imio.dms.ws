@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 
+import datetime
 import os
 from zope.component import getUtility
 from z3c.json.interfaces import IJSONReader
@@ -43,6 +44,23 @@ def send_dmsfile(context, request):
         return helpers.error("%s: %s" % (msg, ve_obj.message),
                              barcode=input_params['barcode'],
                              input=input_params)
+    # check fields content
+    # scan_date: YYYY-MM-DD
+    try:
+        datetime.date(int(input_params['scan_date'][0:4]), int(input_params['scan_date'][5:7]),
+                      int(input_params['scan_date'][8:10]))
+    except Exception, value_error:
+        return helpers.error("Uncorrect scan_date value ('%s'): %s" % (input_params['scan_date'], value_error),
+                             barcode=input_params['barcode'])
+    # scan_hour: HH:mm:SS
+    try:
+        datetime.time(int(input_params['scan_hour'][0:2]), int(input_params['scan_hour'][3:5]),
+                      int(input_params['scan_hour'][6:8]))
+    except Exception, value_error:
+        return helpers.error("Uncorrect scan_hour value ('%s'): %s" % (input_params['scan_hour'], value_error),
+                             barcode=input_params['barcode'])
+#    hour = datetime.time(10, 0)
+#    reception_date = datetime.datetime.combine(today, hour)
 
     # needed to be encoded for base64 translation
     input_params['data'] = input_params['data'].encode('utf8')
@@ -52,6 +70,7 @@ def send_dmsfile(context, request):
 
     if input_params['filesize'] != size:
         return helpers.error("The decoded file content has not the original size: %d <> %d"
-                             % (size, input_params['filesize']), input=input_params, barcode=input_params['barcode'])
+                             % (size, input_params['filesize']), barcode=input_params['barcode'])
 
-    return helpers.success("Well done", input=input_params, barcode=input_params['barcode'])
+    return helpers.success("Well done", barcode=input_params['barcode'])
+#    return helpers.success("Well done", input=input_params, barcode=input_params['barcode'])
