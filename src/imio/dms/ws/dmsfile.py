@@ -26,7 +26,7 @@ def send_dmsfile(context, request):
     """
         Webservice method to send a dms file and create a plone object
     """
-    if not getSecurityManager().checkPermission("Manage portal", context):
+    if not getSecurityManager().checkPermission("imio.dms.ws: Use webservice", context):
         raise Unauthorized("You cannot access this webservice")
 
     jsonReader = getUtility(IJSONReader)
