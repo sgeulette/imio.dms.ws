@@ -48,6 +48,7 @@ setup(
         'jsonschema',
         'z3c.json',
         'Products.CPUtils',
+        'python-cjson',
     ],
     extras_require={
         'test': [
