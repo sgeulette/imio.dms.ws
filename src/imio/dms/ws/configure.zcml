@@ -33,4 +33,9 @@
         handler=".setuphandlers.post_install">
     </genericsetup:importStep>
 
+    <permission
+        id="imio.dms.ws.useWebservice"
+        title="imio.dms.ws: Use webservice"
+    />
+
 </configure>
