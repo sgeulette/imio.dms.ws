@@ -7,6 +7,7 @@ from z3c.json.interfaces import IJSONReader
 from plone.jsonapi.core.browser import router, helpers
 from AccessControl import getSecurityManager
 from AccessControl import Unauthorized
+from plone import api
 #from Products.CPUtils.utils import writeTo
 #from Products.CPUtils.utils import error
 from jsonschema import validate, ValidationError
@@ -59,8 +60,10 @@ def send_dmsfile(context, request):
     except Exception, value_error:
         return helpers.error("Uncorrect scan_hour value ('%s'): %s" % (input_params['scan_hour'], value_error),
                              barcode=input_params['barcode'])
-#    hour = datetime.time(10, 0)
-#    reception_date = datetime.datetime.combine(today, hour)
+    # creator
+    if api.user.get(username=input_params['creator']) is None:
+        return helpers.error("The creator '%s' doesn't exist" % input_params['creator'],
+                             barcode=input_params['barcode'])
 
     # needed to be encoded for base64 translation
     input_params['data'] = input_params['data'].encode('utf8')

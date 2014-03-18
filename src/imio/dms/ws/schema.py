@@ -52,6 +52,11 @@ all_schemas = {
                 "description": "The scanner post computer",
                 "type": "string",
             },
+            "creator": {
+                "description": "The plone login name used for object creation",
+                "type": "string",
+                "minLength": 1,
+            },
             "filesize": {
                 "description": "The scan file size in bytes",
                 "type": "integer",
@@ -71,7 +76,8 @@ all_schemas = {
             },
         },
         "additionalProperties": False,
-        "required": ["barcode", "type", "client_id", "scan_date", "scan_hour", "filesize", "filename", "data"]
+        "required": ["barcode", "type", "client_id", "scan_date", "scan_hour", "creator", "filesize",
+                     "filename", "data"]
     },
     'send_dmsfile_out': {
         "$schema": "http://json-schema.org/draft-04/schema#",

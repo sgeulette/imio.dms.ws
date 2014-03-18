@@ -25,6 +25,7 @@ def ws_test(http_server, port, site):
                 'scan_hour': '10:12:53',
                 'user': 'jeanjean',
                 'pc': 'pc321',
+                'creator': 'webservice',
                 'filesize': 61278,
                 'filename': '123456789.pdf',
                 'data': encodeFile(os.path.join(DATA_DIR, 'courrier1.pdf')),
@@ -43,7 +44,8 @@ def ws_test(http_server, port, site):
     route = args[0]
     #writeTo(os.path.join(DATA_DIR, 'sent.txt'), json_params[route]['post']['data'])
     url = "http://%s:%s/%s/@@API/%s" % (http_server, port, site, route)
-    user = pwd = 'admin'
+    user = 'webservice'
+    pwd = 'serviceweb'
     cmd = "wget -q -O - --user=%s --password=%s --auth-no-challenge" % (user, pwd)
     if route in json_params:
         if 'post' in json_params[route]:
