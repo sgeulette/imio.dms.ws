@@ -116,14 +116,15 @@ all_schemas = {
 }
 
 
-@router.add_route("/get_schema/<string:schema>", "get_schema", methods=["GET"])
-def get_schema(context, request, schema=''):
+@router.add_route("/get_schema", "get_schema", methods=["GET"])
+def get_schema(context, request):
     """
         Webservice method to get a schema
     """
+    schema = request.get('schema', '')
     if not schema:
-        return helpers.error('You must give a schema name as parameter: /get_schema/the-schema-name.'
-                             'The following schema names are available: %s' % all_schemas.keys())
+        return helpers.error('You must give a schema name as parameter: /get_schema?schema=xxx.'
+                             'The following schema names are available: %s' % ", ".join(all_schemas.keys()))
     if not schema in all_schemas:
         return helpers.error("The asked schema '%s' doesn't exist" % schema)
     jsonWriter = getUtility(IJSONWriter)
