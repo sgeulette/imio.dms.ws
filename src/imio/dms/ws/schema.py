@@ -74,6 +74,7 @@ all_schemas = {
                                "literally replaced by '-' and '_' characters",
                 "type": "string",
                 "minLength": 1,
+                "pattern": "^[^+/]+$",
             },
         },
         "additionalProperties": False,
