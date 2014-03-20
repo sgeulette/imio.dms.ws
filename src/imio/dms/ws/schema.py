@@ -5,7 +5,6 @@ from z3c.json.interfaces import IJSONWriter
 from plone.jsonapi.core.browser import router, helpers
 from plone.jsonapi.core.browser.router import DefaultRouter
 
-
 all_schemas = {
     'send_dmsfile_in': {
         "$schema": "http://json-schema.org/draft-04/schema#",
@@ -132,10 +131,11 @@ def get_schema(context, request):
     jsonWriter = getUtility(IJSONWriter)
     return helpers.success("Got schema %s" % schema, schema=jsonWriter.write(all_schemas[schema]))
 
+
 @router.add_route("/", "get_routes", methods=["GET"])
 def get_routes(context, request):
     """
         Webservice method to get routes
     """
-    routes = [rules.rule for rules in DefaultRouter.url_map.iter_rules()]
-    return helpers.success("Routes list %s" % routes)
+    routes = [rules.rule for rules in DefaultRouter.url_map.iter_rules() if rules.rule != '/']
+    return helpers.success("Available routes: %s" % ', '.join(routes))
