@@ -10,9 +10,25 @@ from AccessControl import Unauthorized
 from plone import api
 #from Products.CPUtils.utils import writeTo
 #from Products.CPUtils.utils import error
+from collective.dms.batchimport.utils import createDocument
 from jsonschema import validate, ValidationError
 from imio.dms.ws.utils import decodeToFile, DATA_DIR
 from imio.dms.ws.schema import all_schemas
+
+portal_types = {
+    'COUR_E': {
+        'pt': 'dmsincomingmail',
+        'folder': 'incoming-mail',
+    },
+    'COUR_S': {
+        'pt': 'dmsoutgoingmail',
+        'folder': 'outgoing-mail',
+    },
+    'FACT': {
+        'pt': 'dmsincomingmail',
+        'folder': 'incoming-mail',
+    },
+}
 
 
 @router.add_route("/send_dmsfile", "send_dmsfile", methods=["POST"])
@@ -63,6 +79,18 @@ def send_dmsfile(context, request):
 #    writeTo(os.path.join(DATA_DIR, 'received.txt'), input_params['data'])
     size = decodeToFile(input_params['data'], os.path.join(DATA_DIR, input_params['filename']))
     input_params['data'] = "data length %d" % size
+
+    if input_params['type'] not in portal_types:
+        return helpers.error("This document type '%s' isn't yet supported" % input_params['type'],
+                             barcode=input_params['barcode'])
+    portal = api.portal.get()
+    try:
+        folder = portal.unrestrictedTraverse(portal_types[input_params['type']]['folder'])
+    except KeyError:
+        return helpers.error("The configured folder '%s' doesn't exist in Plone" % input_params['type']['folder'],
+                             barcode=input_params['barcode'])
+#    createDocument(context, folder, portal_type, document_id, filename,
+#                   file_object, owner=None, metadata=None)
 
     if input_params['filesize'] != size:
         return helpers.error("The decoded file content has not the original size: %d <> %d"
