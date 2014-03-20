@@ -15,13 +15,6 @@ from imio.dms.ws.utils import decodeToFile, DATA_DIR
 from imio.dms.ws.schema import all_schemas
 
 
-@router.add_route("/test", "test", methods=["GET"])
-def test(context, request):
-    if not getSecurityManager().checkPermission("Manage portal", context):
-        raise Unauthorized("You cannot access this webservice")
-    return helpers.success("Webservice test method succeeded !")
-
-
 @router.add_route("/send_dmsfile", "send_dmsfile", methods=["POST"])
 def send_dmsfile(context, request):
     """
