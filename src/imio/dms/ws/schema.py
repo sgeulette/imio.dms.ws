@@ -3,6 +3,8 @@
 from zope.component import getUtility
 from z3c.json.interfaces import IJSONWriter
 from plone.jsonapi.core.browser import router, helpers
+from plone.jsonapi.core.browser.router import DefaultRouter
+
 
 all_schemas = {
     'send_dmsfile_in': {
@@ -129,3 +131,11 @@ def get_schema(context, request):
         return helpers.error("The asked schema '%s' doesn't exist" % schema)
     jsonWriter = getUtility(IJSONWriter)
     return helpers.success("Got schema %s" % schema, schema=jsonWriter.write(all_schemas[schema]))
+
+@router.add_route("/", "get_routes", methods=["GET"])
+def get_routes(context, request):
+    """
+        Webservice method to get routes
+    """
+    routes = [rules.rule for rules in DefaultRouter.url_map.iter_rules()]
+    return helpers.success("Routes list %s" % routes)
