@@ -20,8 +20,7 @@ all_schemas = {
             },
             "type": {
                 "description": "The type of the document",
-                "type": "string",
-                "minLength": 1,
+                "enum": ["FACT", "COUR_IN", "COUR_OUT"]
             },
             "pages_number": {
                 "description": "The number of pages",
