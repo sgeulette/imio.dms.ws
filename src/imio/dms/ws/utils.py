@@ -2,6 +2,7 @@
 
 import os
 import base64
+import tempfile
 import imio.dms.ws as idw
 #from Products.CPUtils.utils import verbose
 
@@ -26,15 +27,21 @@ def encodeFile(filepath):
 #------------------------------------------------------------------------------
 
 
-def decodeToFile(b64str, filepath):
+def decodeToFile(b64str, temp=True, filepath='', close=False):
     """
-        Decode a base64 string to file
+        Decode a base64 string to file.
+        If temp = True, create a temporary file and return a file object.
+        If temp = False, create a file at the given filepath and return the size.
     """
     try:
-        ofile = open(filepath, 'wb')
+        if temp:
+            ofile = tempfile.NamedTemporaryFile()
+        elif filepath:
+            ofile = open(filepath, 'wb')
         ofile.write(base64.urlsafe_b64decode(b64str))
         size = ofile.tell()
-        ofile.close()
-        return size
+        if close:
+            ofile.close()
+        return (ofile, size)
     except IOError:
         return "Cannot create %s file" % filepath
