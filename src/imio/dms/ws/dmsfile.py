@@ -116,7 +116,7 @@ def send_dmsfile(context, request):
     }
     document_file = NamedBlobFile(fo.read(), filename=input_params['filename'])
     createDocument(dummy(context, request), folder, portal_types[input_params['type']]['pt'], '',
-                   input_params['filename'], document_file, owner=input_params['creator'], metadata=metadata)
+                   document_file, owner=input_params['creator'], metadata=metadata)
     fo.close()
 
     return helpers.success("Well done", barcode=input_params['barcode'])
