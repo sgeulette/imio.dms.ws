@@ -13,4 +13,4 @@ def post_install(context):
         return
     portal = context.getSite()
     # create a test user
-    api.user.create(email="test@test.be", username="webservice", password="serviceweb", roles=('Member'))
+    api.user.create(email="test@test.be", username="webservice", password="serviceweb", roles=('Member', ))
